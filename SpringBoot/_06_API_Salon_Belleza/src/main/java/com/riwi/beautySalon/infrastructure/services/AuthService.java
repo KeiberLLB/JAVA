@@ -1,6 +1,9 @@
 package com.riwi.beautySalon.infrastructure.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.riwi.beautySalon.api.dto.request.LoginReq;
@@ -25,10 +28,32 @@ public class AuthService implements IAuthService {
   @Autowired
   private final JwtService jwtService;
 
+  @Autowired
+  private final PasswordEncoder passwordEncoder;
+
+  @Autowired
+    private final AuthenticationManager authenticationManager;
+
   @Override
   public AuthResp login(LoginReq request) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'login'");
+    try {
+            //Autenticar en la app
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request. getPassword()));
+        } catch (Exception e) {
+            throw new BadRequestException("Credenciales invalidas");
+        }
+
+        //SI el usuario se autenticó correctamente
+        User user = this.findByUserName(request.getUsername());
+
+        if (user == null) {
+            throw new BadRequestException("El usuario no está registrado");
+        }
+
+        return AuthResp.builder()
+                .message("Autenticado correctamente")
+                .token(this.jwtService.getToken(user))
+                .build();
   }
 
   @Override
@@ -41,7 +66,8 @@ public class AuthService implements IAuthService {
     // 2. Construimos el nuevo usuario
     User user = User.builder()
         .userName(request.getUsername())
-        .password(request.getPassword())
+        .password(passwordEncoder.encode(request
+            .getPassword()))
         .role(Role.CLIENT)
         .build();
     // 3. Guardar el nuevo usuario en la db
