@@ -1,0 +1,8 @@
+spring web 
+spring boot devtools
+mysql driver
+spring data jpa
+lombok (es un libreria que nos permite generar los constructores setters y getters)
+
+
+bindeo de interfaces con clases (investigar)
