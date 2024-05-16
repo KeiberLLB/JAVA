@@ -31,45 +31,42 @@ public class ServiceController {
 
     @Autowired
     private final IServiceService service;
-    
+
     @GetMapping(path = "/public/get")
     public ResponseEntity<Page<ServiceResp>> getAll(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "5") int size,
-        @RequestHeader(required = false) SortType sortType
-    ){
-        
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestHeader(required = false) SortType sortType) {
+
         if (Objects.isNull(sortType)) {
             sortType = SortType.NONE;
         }
 
-        return ResponseEntity.ok(this.service.getAll(page -1, size, sortType));
+        return ResponseEntity.ok(this.service.getAll(page - 1, size, sortType));
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ServiceResp> get(@PathVariable Long id){
+    public ResponseEntity<ServiceResp> get(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.get(id));
     }
 
     @PostMapping
     public ResponseEntity<ServiceResp> create(
-       @Validated @RequestBody ServiceReq request
-    ){
+            @Validated @RequestBody ServiceReq request) {
         return ResponseEntity.ok(this.service.create(request));
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.service.delete(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/{id}" )
+    @PutMapping(path = "/{id}")
     public ResponseEntity<ServiceResp> update(
-        @Validated @RequestBody ServiceReq request,
-        @PathVariable Long id
-    ){
+            @Validated @RequestBody ServiceReq request,
+            @PathVariable Long id) {
         return ResponseEntity.ok(this.service.update(request, id));
     }
 }

@@ -26,14 +26,12 @@ import com.riwi.beautySalon.utils.messages.ErrorMessages;
 
 import lombok.AllArgsConstructor;
 
-
 @Service
 @AllArgsConstructor
-public class ClientService implements IClientService{
+public class ClientService implements IClientService {
 
     @Autowired
     private final ClientRepository clientRepository;
-
 
     @Override
     public ClientResp create(ClientReq request) {
@@ -66,8 +64,9 @@ public class ClientService implements IClientService{
 
     @Override
     public Page<ClientResp> getAll(int page, int size, SortType sortType) {
-        
-        if (page <0) page = 0;
+
+        if (page < 0)
+            page = 0;
 
         PageRequest pagination = null;
 
@@ -76,30 +75,30 @@ public class ClientService implements IClientService{
             case ASC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
             case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
         }
-        
+
         return this.clientRepository.findAll(pagination)
                 .map(this::entityToResp);
     }
-    
-    private ClientResp entityToResp(ClientEntity entity){
 
-       List<AppointmentToClient> appointments = entity.getAppointments()
-            .stream()
-            .map(this::entityToResponseAppointment)
-            .collect(Collectors.toList());
+    private ClientResp entityToResp(ClientEntity entity) {
+
+        List<AppointmentToClient> appointments = entity.getAppointments()
+                .stream()
+                .map(this::entityToResponseAppointment)
+                .collect(Collectors.toList());
 
         return ClientResp.builder()
-                 .id(entity.getId())
-                 .firstName(entity.getFirstName())
-                 .lastName(entity.getLastName())
-                 .phone(entity.getPhone())
-                 .email(entity.getEmail())
-                 .appointments(appointments)
-                 .build();
+                .id(entity.getId())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .phone(entity.getPhone())
+                .email(entity.getEmail())
+                .appointments(appointments)
+                .build();
 
     }
 
-    private AppointmentToClient entityToResponseAppointment(Appointment entity){
+    private AppointmentToClient entityToResponseAppointment(Appointment entity) {
 
         ServiceResp service = new ServiceResp();
         BeanUtils.copyProperties(entity.getService(), service);
@@ -108,13 +107,13 @@ public class ClientService implements IClientService{
         BeanUtils.copyProperties(entity.getEmployee(), employee);
 
         return AppointmentToClient.builder()
-                    .id(entity.getId())
-                    .dateTime(entity.getDateTime())
-                    .duration(entity.getDuration())
-                    .comments(entity.getComments())
-                    .service(service)
-                    .employee(employee)
-                    .build();
+                .id(entity.getId())
+                .dateTime(entity.getDateTime())
+                .duration(entity.getDuration())
+                .comments(entity.getComments())
+                .service(service)
+                .employee(employee)
+                .build();
 
     }
 
@@ -129,6 +128,6 @@ public class ClientService implements IClientService{
 
     private ClientEntity find(Long id) {
         return this.clientRepository.findById(id)
-                    .orElseThrow(()-> new BadRequestException(ErrorMessages.idNotFound("Client")));
+                .orElseThrow(() -> new BadRequestException(ErrorMessages.idNotFound("Client")));
     }
 }

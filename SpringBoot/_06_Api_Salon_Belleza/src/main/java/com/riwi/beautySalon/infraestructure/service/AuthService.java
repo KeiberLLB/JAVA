@@ -40,7 +40,7 @@ public class AuthService implements IAuthService {
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
-        
+
     @Autowired
     private final AuthenticationManager authenticationManager;
 
@@ -51,15 +51,16 @@ public class AuthService implements IAuthService {
 
     @Override
     public AuthResp login(LoginReq request) {
-        
+
         try {
-            //Autenticar en la app
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request. getPassword()));
+            // Autenticar en la app
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
         } catch (Exception e) {
             throw new BadRequestException("Credenciales invalidas");
         }
 
-        //SI el usuario se autenticó correctamente
+        // SI el usuario se autenticó correctamente
         User user = this.findByUserName(request.getUserName());
 
         if (user == null) {
@@ -70,32 +71,31 @@ public class AuthService implements IAuthService {
                 .message("Autenticado correctamente")
                 .token(this.jwtService.getToken(user))
                 .build();
-        
 
     }
 
     @Override
     public AuthResp register(RegisterReq request) {
-       /*1. Validar que userName no exista */
-       User exist = this.findByUserName(request.getUserName());
+        /* 1. Validar que userName no exista */
+        User exist = this.findByUserName(request.getUserName());
 
-       if (exist != null) {
+        if (exist != null) {
             throw new BadRequestException("Este nombre de usuario ya está registrado.");
-       }
+        }
 
-       /*2. Construimos el nuevo usuario */
+        /* 2. Construimos el nuevo usuario */
 
-       User user = User.builder()
-                    .userName(request.getUserName())
-                    //Guardar la contraseña codificada
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.ADMIN)
-                    .build();
-        
-        /*3. Guardar el nuevo usuario en la db*/
-       this.userRepository.save(user);
+        User user = User.builder()
+                .userName(request.getUserName())
+                // Guardar la contraseña codificada
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ADMIN)
+                .build();
 
-       return AuthResp.builder()
+        /* 3. Guardar el nuevo usuario en la db */
+        this.userRepository.save(user);
+
+        return AuthResp.builder()
                 .message("Se registró exitosamente")
                 .token(this.jwtService.getToken(user))
                 .build();
@@ -103,85 +103,85 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    /*Método para registrar un cliente */
-    public AuthResp registerClient(ClientRegisterReq request){
+    /* Método para registrar un cliente */
+    public AuthResp registerClient(ClientRegisterReq request) {
 
-        /*Validamos que el usuario no exista */
+        /* Validamos que el usuario no exista */
         User exist = this.findByUserName(request.getUserName());
 
         if (exist != null) {
             throw new BadRequestException("El usuario ya está registrado");
         }
 
-        /*Construimos el usuario */
+        /* Construimos el usuario */
 
         User user = User.builder()
-                    .userName(request.getUserName())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.CLIENT)
-                    .build();
+                .userName(request.getUserName())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.CLIENT)
+                .build();
 
-        /*Guardarlos en db */
+        /* Guardarlos en db */
         User userSave = this.userRepository.save(user);
 
-        /*Construimos el cliente */
+        /* Construimos el cliente */
         ClientEntity client = ClientEntity.builder()
-                    .firstName(request.getFirstName())
-                    .lastName(request.getLastName())
-                    .phone(request.getPhone())
-                    .email(request.getEmail())
-                    .user(userSave)
-                    .appointments(new ArrayList<>())
-                    .build();
-        
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .user(userSave)
+                .appointments(new ArrayList<>())
+                .build();
+
         this.clientRepository.save(client);
 
-        return AuthResp.builder()   
+        return AuthResp.builder()
                 .message("Cliente registrado correctamente")
                 .token(this.jwtService.getToken(userSave))
                 .build();
     }
-    
-    private User findByUserName(String userName){
+
+    private User findByUserName(String userName) {
         return this.userRepository.findByUserName(userName)
-                    .orElse(null);
+                .orElse(null);
     }
 
     @Override
     public AuthResp registerEmployee(EmployeeRegisterReq request) {
-        
-        /*Validamos que el usuario no exista */
+
+        /* Validamos que el usuario no exista */
         User exist = this.findByUserName(request.getUserName());
 
         if (exist != null) {
             throw new BadRequestException("El usuario ya está registrado");
         }
 
-        /*Construimos el usuario */
+        /* Construimos el usuario */
 
         User user = User.builder()
-                    .userName(request.getUserName())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.EMPLOYEE)
-                    .build();
+                .userName(request.getUserName())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.EMPLOYEE)
+                .build();
 
-        /*Guardarlos en db */
+        /* Guardarlos en db */
         User userSave = this.userRepository.save(user);
 
         Employee employee = Employee.builder()
-                    .firstName(request.getFirstName())
-                    .lastName(request.getLastName())
-                    .email(request.getEmail())
-                    .role(request.getRole())
-                    .phone(request.getPhone())
-                    .user(userSave)
-                    .build();
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .role(request.getRole())
+                .phone(request.getPhone())
+                .user(userSave)
+                .build();
 
         this.employeeRepository.save(employee);
 
         return AuthResp.builder()
-                    .message("Empleado registrado correctamente")
-                    .token(this.jwtService.getToken(userSave))
-                    .build();
+                .message("Empleado registrado correctamente")
+                .token(this.jwtService.getToken(userSave))
+                .build();
     }
 }

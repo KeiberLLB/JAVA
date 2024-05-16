@@ -30,14 +30,14 @@ public class ServiceService implements IServiceService {
 
     @Override
     public ServiceResp create(ServiceReq request) {
-       ServiceEntity service = this.requestToEntity(request);
+        ServiceEntity service = this.requestToEntity(request);
 
-       return this.entityToResp(this.serviceRepository.save(service));
+        return this.entityToResp(this.serviceRepository.save(service));
     }
 
     @Override
     public ServiceResp get(Long id) {
-       return this.entityToResp(this.find(id));
+        return this.entityToResp(this.find(id));
     }
 
     @Override
@@ -53,25 +53,26 @@ public class ServiceService implements IServiceService {
 
     @Override
     public void delete(Long id) {
-       this.serviceRepository.delete(this.find(id));
+        this.serviceRepository.delete(this.find(id));
     }
 
     @Override
     public Page<ServiceResp> getAll(int page, int size, SortType sortType) {
-      if (page < 0) page = 0;
-      
-      PageRequest pagination = null;
+        if (page < 0)
+            page = 0;
 
-      switch (sortType) {
-          case NONE -> pagination = PageRequest.of(page, size);
-          case ASC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
-          case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
-      }
+        PageRequest pagination = null;
 
-      this.serviceRepository.findAll(pagination);
+        switch (sortType) {
+            case NONE -> pagination = PageRequest.of(page, size);
+            case ASC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
+            case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+        }
 
-      return this.serviceRepository.findAll(pagination)
-        .map(this::entityToResp);
+        this.serviceRepository.findAll(pagination);
+
+        return this.serviceRepository.findAll(pagination)
+                .map(this::entityToResp);
 
     }
 
@@ -81,8 +82,7 @@ public class ServiceService implements IServiceService {
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
-
-    private ServiceResp entityToResp(ServiceEntity entity){
+    private ServiceResp entityToResp(ServiceEntity entity) {
 
         return ServiceResp.builder()
                 .id(entity.getId())
@@ -91,20 +91,19 @@ public class ServiceService implements IServiceService {
                 .description(entity.getDescription())
                 .build();
     }
-    
 
-    private ServiceEntity requestToEntity(ServiceReq request){
+    private ServiceEntity requestToEntity(ServiceReq request) {
 
         return ServiceEntity.builder()
-                    .name(request.getName())
-                    .price(request.getPrice())
-                    .description(request.getDescription())
-                    .build();
+                .name(request.getName())
+                .price(request.getPrice())
+                .description(request.getDescription())
+                .build();
     }
 
-    private ServiceEntity  find(Long id ){
+    private ServiceEntity find(Long id) {
 
         return this.serviceRepository.findById(id)
-            .orElseThrow(()-> new BadRequestException(ErrorMessages.idNotFound("Servicio")));
+                .orElseThrow(() -> new BadRequestException(ErrorMessages.idNotFound("Servicio")));
     }
 }
