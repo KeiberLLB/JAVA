@@ -22,7 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity( name = "user")
+@Entity(name = "user")
 @Data
 @Builder
 @AllArgsConstructor
@@ -44,28 +44,27 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    //Configurar los permisos de este usuario
+    // Configurar los permisos de este usuario
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        /* Guardar la autoridad otorgada al usuario  autenticado */
+        /* Guardar la autoridad otorgada al usuario autenticado */
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
-    //Obtener username
+    // Obtener username
     @Override
     public String getUsername() {
-       return this.userName;
+        return this.userName;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
-       return true;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-       return true;
+        return true;
     }
 
     @Override
@@ -77,5 +76,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    
+
 }

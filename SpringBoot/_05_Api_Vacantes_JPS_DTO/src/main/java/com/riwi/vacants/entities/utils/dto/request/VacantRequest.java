@@ -17,7 +17,7 @@ public class VacantRequest {
   @Size(min=0, max=255)
   @NotBlank(message = "El titulo es requerido")
   private String title;
-  @NotBlank(message = "La descripcion es obligatoria")
+  @NotBlank(message = "La  es obligatoria")
   private String description;
   private StatusVacant status;
   @NotBlank(message = "El id de la compañia es requerido")

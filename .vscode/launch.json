@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-BeautySalonApplication<beautySalon>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.riwi.beautySalon.BeautySalonApplication",
+      "projectName": "beautySalon",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-VacantsApplication<vacants>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.riwi.vacants.VacantsApplication",
+      "projectName": "vacants",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
