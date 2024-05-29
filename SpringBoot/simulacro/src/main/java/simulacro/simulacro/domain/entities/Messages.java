@@ -32,13 +32,13 @@ public class Messages {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
-  private Users receiver_id;
+  private Users receiver;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
-  private Users sender_id;
+  private Users sender;
   
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "course_id", referencedColumnName = "course_id")
-  private Courses course_id;
+  private Courses course;
 }

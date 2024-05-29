@@ -36,4 +36,8 @@ public class Submissions {
   @JoinColumn(name = "user_id", referencedColumnName = "user_id")
   private Users student;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "assignment_id", referencedColumnName = "assignment_id")
+  private Assignments assignment;
+
 }
