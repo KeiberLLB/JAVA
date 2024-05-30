@@ -1,19 +1,16 @@
 package simulacro.simulacro.api.dto.response.basicResponse;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssignmentsBasicResponse {
-  private Long assignment_id;
-  private String assignment_title;
+public class CoursesRS {
+  private Long course_id;
+  private String course_name;
   private String description;
-  private LocalDateTime due_date;
 }

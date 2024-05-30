@@ -3,17 +3,16 @@ package simulacro.simulacro.api.dto.response.basicResponse;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubmissionsBasicResponse {
-  private Long submision_id;
-  private String content;
-  private Double grade;
-  private LocalDateTime submission_date;
+public class MessagesRS {
+  private Long message_id;
+  private String message_content;
+  private LocalDateTime sent_date;
 }

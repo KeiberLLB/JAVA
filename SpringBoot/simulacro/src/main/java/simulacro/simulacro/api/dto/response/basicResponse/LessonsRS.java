@@ -1,16 +1,16 @@
 package simulacro.simulacro.api.dto.response.basicResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoursesBasicResponse {
-  private Long course_id;
-  private String course_name;
-  private String description;
+public class LessonsRS {
+  private Long lesson_id;
+  private String lesson_title;
+  private String content;
 }
