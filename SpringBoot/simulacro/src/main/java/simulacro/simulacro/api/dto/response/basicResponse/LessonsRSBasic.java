@@ -1,7 +1,5 @@
 package simulacro.simulacro.api.dto.response.basicResponse;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +9,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessagesSenderRS {
-  private Long message_id;
-  private String message_content;
-  private LocalDateTime sent_date;
-  private Long sender_id;
-  private Long receiver_id;
+public class LessonsRSBasic {
+  private Long lesson_id;
+  private String lesson_title;
+  private String content;
 }

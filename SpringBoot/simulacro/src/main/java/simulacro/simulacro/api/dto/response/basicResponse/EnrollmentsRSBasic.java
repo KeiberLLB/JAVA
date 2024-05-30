@@ -11,8 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessagesRS {
-  private Long message_id;
-  private String message_content;
-  private LocalDateTime sent_date;
+public class EnrollmentsRSBasic {
+  private Long enrollment_id;
+  private LocalDateTime enrollment_date;
 }

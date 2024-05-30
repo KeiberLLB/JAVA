@@ -1,18 +1,25 @@
 package simulacro.simulacro.infraestructure.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import simulacro.simulacro.api.dto.request.CoursesRQ;
-import simulacro.simulacro.api.dto.response.basicResponse.CoursesRS;
+import simulacro.simulacro.api.dto.response.basicResponse.CoursesRSBasic;
+import simulacro.simulacro.api.dto.response.basicResponse.UserRSBasic;
+import simulacro.simulacro.api.dto.response.CourseRS;
 import simulacro.simulacro.domain.entities.Courses;
 import simulacro.simulacro.domain.entities.Users;
 import simulacro.simulacro.domain.repository.CoursesRepository;
 import simulacro.simulacro.domain.repository.UserRepository;
 import simulacro.simulacro.infraestructure.abstract_services.ICoursesService;
+import simulacro.simulacro.infraestructure.abstract_services.IUserService;
 import simulacro.simulacro.utils.enums.SortType;
 import simulacro.simulacro.utils.exception.BadRequestException;
 import simulacro.simulacro.utils.messages.ErrorMessages;
@@ -28,17 +35,57 @@ public class CoursesService implements ICoursesService {
   private final CoursesRepository coursesRepository;
 
   @Override
-  public CoursesRS create(CoursesRQ request) {
+  public CourseRS create(CoursesRQ request) {
     Courses newCourse = this.requestToEntity(request);
 
     return this.entityToResponse(this.coursesRepository.save(newCourse));
   }
 
-  private CoursesRS entityToResponse(Courses entity) {
-    return CoursesRS.builder()
+  @Override
+  public CourseRS get(Long id) {
+    return this.entityToResponse(this.find(id));
+  }
+
+  @Override
+  public CourseRS update(CoursesRQ request, Long id) {
+    Courses course = this.find(id);
+    Courses courseUpdate = this.requestToEntity(request);
+    courseUpdate.setCourse_id(course.getCourse_id());
+    return this.entityToResponse(this.coursesRepository.save(courseUpdate));
+  }
+
+  @Override
+  public void delete(Long id) {
+    this.coursesRepository.delete(this.find(id));
+  }
+
+  @Override
+  public Page<CourseRS> getAll(int page, int size, SortType sortType) {
+    if (page < 0)
+      page = 0;
+    PageRequest pagination = null;
+    switch (sortType) {
+      case NONE -> pagination = PageRequest.of(page, size);
+      case ASC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
+      case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+    }
+    return this.coursesRepository.findAll(pagination)
+        .map(this::entityToResponse);
+  }
+
+  private CourseRS entityToResponse(Courses entity) {
+
+    return CourseRS.builder()
         .course_id(entity.getCourse_id())
         .course_name(entity.getCourse_name())
         .description(entity.getDescription())
+        .instructor(UserRSBasic.builder()
+            .user_id(entity.getInstructor().getUser_id())
+            .username(entity.getInstructor().getUsername())
+            .email(entity.getInstructor().getEmail())
+            .full_name(entity.getInstructor().getFull_name())
+            .role(entity.getInstructor().getRole())
+            .build())
         .build();
   }
 
@@ -56,28 +103,8 @@ public class CoursesService implements ICoursesService {
         .build();
   }
 
-  @Override
-  public CoursesRS get(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'get'");
+  private Courses find(Long id) {
+    return this.coursesRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException(ErrorMessages.idNotFound("Course")));
   }
-
-  @Override
-  public CoursesRS update(CoursesRQ request, Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
-  }
-
-  @Override
-  public void delete(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'delete'");
-  }
-
-  @Override
-  public Page<CoursesRS> getAll(int page, int size, SortType sortType) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAll'");
-  }
-
 }

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import simulacro.simulacro.api.dto.request.UserRQ;
-import simulacro.simulacro.api.dto.response.basicResponse.UserRS;
+import simulacro.simulacro.api.dto.response.basicResponse.UserRSBasic;
 import simulacro.simulacro.domain.entities.Users;
 import simulacro.simulacro.domain.repository.UserRepository;
 import simulacro.simulacro.infraestructure.abstract_services.IUserService;
@@ -26,18 +26,18 @@ public class UserService implements IUserService {
   private final UserRepository userRepository;
 
   @Override
-  public UserRS create(UserRQ request) {
+  public UserRSBasic create(UserRQ request) {
     Users newuser = this.requestToEntity(request);
     return this.entityToResponse(this.userRepository.save(newuser));
   }
 
   @Override
-  public UserRS get(Long id) {
+  public UserRSBasic get(Long id) {
     return this.entityToResponse(this.find(id));
   }
 
   @Override
-  public UserRS update(UserRQ request, Long id) {
+  public UserRSBasic update(UserRQ request, Long id) {
     Users user = this.find(id);
     Users userUpdate = this.requestToEntity(request);
     userUpdate.setUser_id(user.getUser_id());
@@ -50,7 +50,7 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Page<UserRS> getAll(int page, int size, SortType sortType) {
+  public Page<UserRSBasic> getAll(int page, int size, SortType sortType) {
     if (page < 0)
       page = 0;
     PageRequest pagination = null;
@@ -63,8 +63,8 @@ public class UserService implements IUserService {
         .map(this::entityToResponse);
   }
 
-  private UserRS entityToResponse(Users entity) {
-    return UserRS.builder()
+  private UserRSBasic entityToResponse(Users entity) {
+    return UserRSBasic.builder()
         .user_id(entity.getUser_id())
         .username(entity.getUsername())
         .email(entity.getEmail())

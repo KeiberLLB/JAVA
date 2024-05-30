@@ -35,5 +35,4 @@ public class Enrollments {
   @JoinColumn(name = "course_id", referencedColumnName = "course_id")
   private Courses course;
 
-
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import simulacro.simulacro.api.dto.request.UserRQ;
-import simulacro.simulacro.api.dto.response.basicResponse.UserRS;
+import simulacro.simulacro.api.dto.response.basicResponse.UserRSBasic;
 import simulacro.simulacro.infraestructure.abstract_services.IUserService;
 import simulacro.simulacro.utils.enums.SortType;
 
@@ -32,7 +32,7 @@ public class UserController {
   private final IUserService userService;
 
   @GetMapping(path = "/get")
-  public ResponseEntity<Page<UserRS>> getAll(
+  public ResponseEntity<Page<UserRSBasic>> getAll(
       @RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "5") int size,
       @RequestHeader(required = false) SortType sortType) {
@@ -45,12 +45,12 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserRS> create(
+  public ResponseEntity<UserRSBasic> create(
       @Validated @RequestBody UserRQ request) {
     return ResponseEntity.ok(this.userService.create(request));
   }
   @PutMapping(path = "/{id}")
-    public ResponseEntity<UserRS> update(
+    public ResponseEntity<UserRSBasic> update(
             @Validated @RequestBody UserRQ request,
         @PathVariable Long id) {
       return ResponseEntity.ok(this.userService.update(request, id));
@@ -64,7 +64,7 @@ public class UserController {
     }
     
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserRS> get(@PathVariable Long id) {
+    public ResponseEntity<UserRSBasic> get(@PathVariable Long id) {
       return ResponseEntity.ok(this.userService.get(id));
     }
 

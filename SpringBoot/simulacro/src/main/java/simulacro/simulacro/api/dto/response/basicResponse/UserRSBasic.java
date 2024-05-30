@@ -1,16 +1,18 @@
 package simulacro.simulacro.api.dto.response.basicResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import simulacro.simulacro.utils.enums.Role;
 
-@Data
+@Getter
+@Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRS {
+public class UserRSBasic {
   private Long user_id;
   private String username;
   private String email;
