@@ -59,6 +59,7 @@ public class CourseController {
 
   @GetMapping(path = "/get")
   // no se puede aplicar el principio de herencia en Page
+  // porque page es una coleccion
   public ResponseEntity<Page<CourseRS>> getAll(
       @RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "5") int size,

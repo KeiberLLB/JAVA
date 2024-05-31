@@ -38,8 +38,10 @@ public class Lessons {
   @JoinColumn(name = "course_id", referencedColumnName = "course_id")
   private Courses course;
 
+  // @Builder.Default
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "lesson", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
+  // private List<Assignments> assignments = new ArrayList<>();
   private List<Assignments> assignments;
 }
