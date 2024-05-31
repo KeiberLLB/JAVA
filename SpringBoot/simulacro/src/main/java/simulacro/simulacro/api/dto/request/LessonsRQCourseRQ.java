@@ -1,5 +1,7 @@
 package simulacro.simulacro.api.dto.request;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoursesRQ {
-  private String course_name;
-  private String description;
-  private Long instructor_id;
-
+public class LessonsRQCourseRQ {
+  private String lesson_title;
+  private String content;
+  private CoursesRQ coursesRQ;
+  private List<AssignmentsRQ> lAssignments;
 }

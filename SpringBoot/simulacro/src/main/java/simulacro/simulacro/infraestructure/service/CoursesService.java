@@ -1,7 +1,5 @@
 package simulacro.simulacro.infraestructure.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import simulacro.simulacro.api.dto.request.CoursesRQ;
-import simulacro.simulacro.api.dto.response.basicResponse.CoursesRSBasic;
 import simulacro.simulacro.api.dto.response.basicResponse.UserRSBasic;
 import simulacro.simulacro.api.dto.response.CourseRS;
 import simulacro.simulacro.domain.entities.Courses;
@@ -19,7 +16,6 @@ import simulacro.simulacro.domain.entities.Users;
 import simulacro.simulacro.domain.repository.CoursesRepository;
 import simulacro.simulacro.domain.repository.UserRepository;
 import simulacro.simulacro.infraestructure.abstract_services.ICoursesService;
-import simulacro.simulacro.infraestructure.abstract_services.IUserService;
 import simulacro.simulacro.utils.enums.SortType;
 import simulacro.simulacro.utils.exception.BadRequestException;
 import simulacro.simulacro.utils.messages.ErrorMessages;
