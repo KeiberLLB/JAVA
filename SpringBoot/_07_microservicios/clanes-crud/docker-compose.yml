@@ -1,0 +1,26 @@
+# docker-compose up --build construir 
+# docker-compose up --build -d para liberar el tablero de comandos
+# docker-compose down para borrar la imagen y el contenedor
+# docker-compose ps para ver el estado de los contenedores
+# docker-compose logs -f para ver los logs de los contenedores
+
+
+
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: microservices_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: riwi_db_meta
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
+
