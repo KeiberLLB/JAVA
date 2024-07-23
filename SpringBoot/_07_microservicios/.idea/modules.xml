@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/_07_microservicios.iml" filepath="$PROJECT_DIR$/.idea/_07_microservicios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clanes-crud/clanes-crud.iml" filepath="$PROJECT_DIR$/clanes-crud/clanes-crud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-register/service-register/service-registry.iml" filepath="$PROJECT_DIR$/service-register/service-register/service-registry.iml" />
+    </modules>
+  </component>
+</project>
