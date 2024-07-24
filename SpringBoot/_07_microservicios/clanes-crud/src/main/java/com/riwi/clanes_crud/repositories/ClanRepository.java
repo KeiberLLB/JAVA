@@ -11,14 +11,14 @@ import com.riwi.clanes_crud.entities.Clan;
 
 @Repository
 public interface ClanRepository extends JpaRepository<Clan, Long> {
-        @Query("SELECT c FROM clan c WHERE (c.name LIKE %:name%) AND " +
-                        "(c.description LIKE %:description%) AND " +
-                        "(:isActive IS NULL OR c.isActive = :isActive) AND " +
-                        "(:cohortId IS NULL OR c.cohort.id = :cohortId)")
-        public Page<Clan> getAll(
-                        @Param("name") String name,
-                        @Param("description") String description,
-                        @Param("isActive") Boolean isActive,
-                        @Param("cohortId") Long cohortId,
-                        Pageable pagination);
+  @Query("SELECT c FROM clan c WHERE (c.name LIKE %:name%) AND " +
+      "(c.description LIKE %:description%) AND " +
+      "(:isActive IS NULL OR c.isActive = :isActive) AND " +
+      "(:cohortId IS NULL OR c.cohort.id = :cohortId)")
+  public Page<Clan> getAll(
+      @Param("name") String name,
+      @Param("description") String description,
+      @Param("isActive") Boolean isActive,
+      @Param("cohortId") Long cohortId,
+      Pageable pagination);
 }
