@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ServiceRegisterApplication<service-registry>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.example.service_register.ServiceRegisterApplication",
+      "projectName": "service-registry",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
