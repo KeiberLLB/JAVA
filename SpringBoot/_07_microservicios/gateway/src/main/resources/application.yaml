@@ -18,6 +18,10 @@ spring:
           uri: lb://clanes-crud #se debe colocar el mismo nombre que esta en el archivo yaml en clanes name
           predicates:
             - Path=/clan/** # es la ruta que termina en controller y empieza en el aplication.yaml
+        - id: team_leader_service
+          uri: lb://team-leader-service #se debe colocar el mismo nombre que esta en el archivo yaml en clanes name
+          predicates:
+            - Path=/api/v1/team-leader/** # es la ruta que termina en controller y empieza en el aplication.yaml
 
 server:
   port: 8080
